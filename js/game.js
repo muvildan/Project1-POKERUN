@@ -17,15 +17,15 @@ class Game {
         this.obstaclePosition =[];
         this.usedPosition =[false, false, false];
         this.lives = 3;
+        this.counterForNextLevel = 0;
     }
-
 
     start() {
         // Append canvas to the DOM, create a Player and start the Canvas loop
         // Save reference to canvas and Create ctx
         this.setCanvasValues();
-        this.drawLives();
         this.drawScore();
+        this.drawLives();
 
         // Create a new player for the current game
         this.player = new Player(this.canvas, this.centerPosition, 3);
@@ -46,21 +46,21 @@ class Game {
             // We create the obstacles with random y
             let pos = Math.floor(Math.random() * 3);
 
-            if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
                 setTimeout(() => this.enableObstacleTrack(pos), 4000);
             }
 
-            if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
                 setTimeout(() => this.enableObstacleTrack(pos), 4000);
             }
 
-            if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
@@ -81,7 +81,9 @@ class Game {
             });
             
 
-            this.plantArr = this.plantArr.filter(this.inGame)
+            this.plantArr = this.plantArr.filter(this.inGame);
+            this.fireArr = this.fireArr.filter(this.inGame);
+            this.waterArr = this.waterArr.filter(this.inGame);
 
             this.checkPlantCollisions(this.plantArr);
             this.checkFireCollisions(this.fireArr);
@@ -100,20 +102,20 @@ class Game {
             this.waterArr.forEach((obstacle) => {
                 obstacle.draw();
             });
-
+            
             this.fireArr.forEach((obstacle) => {
                 obstacle.draw();
             });
-
+            
             this.plantArr.forEach((obstacle) => {
                 obstacle.draw();
             });
-
+            
             //4. Terminate the loop
             if(!this.gameIsOver) {
                 window.requestAnimationFrame(loop);
             } else {
-              buildGameOver();
+                buildGameOver();
             }
         };
         // As loop function will be continuously invoked by
@@ -126,9 +128,10 @@ class Game {
         obstaclesArray.forEach((obstacle) => {
             if (this.player.didCollide(obstacle)) {
                 if (obstacle.upScore){
-                    this.score += 5
+                    this.score += 50;
+                    this.counterForNextLevel += 50;
+                    this.nextLevel();
                     obstacle.upScore = !obstacle.upScore;
-                    console.log(this.score)
                 }
             }
         }
@@ -166,9 +169,6 @@ class Game {
         ];
     }
 
-    inGame = (obj) => {
-        return obj.y < this.canvas.height
-    }
 
     setEventListeners(){
         //Add an event listener for moving the player
@@ -189,12 +189,24 @@ class Game {
         this.usedPosition[position] = false;
     }
 
+    inGame = (obj) => {
+        let counter = 0
+        if (obj.y < this.canvas.height){
+            return true;
+        } else {
+            this.score += 1;
+            this.counterForNextLevel += 1;
+            this.nextLevel();
+            return false;
+        }
+    }
+
     
     drawLives () {
         let indicator = document.querySelector(".lives");
         
         let indicatorContent = "";
-        for(let i = 0; i < this.lives; i++){
+        for(let i = 0; i < this.lives; i++){ 
             indicatorContent += "<img src='../images/heart.png' />"
         }
         indicator.innerHTML = indicatorContent;
@@ -202,11 +214,17 @@ class Game {
 
     drawScore () {
         let indicator = document.querySelector(".score");
-        let indicatorContent = "";
-        for (let i = 0; i < this.score; i++){
-            indicatorContent += "<`Score: ${this.score}`/>"
-        }
-        indicator.innerHTML = indicatorContent;
+        indicator.innerHTML = this.score;
     }
+
+    nextLevel(){
+        if (this.counterForNextLevel >= 100){
+            this.fireArr.forEach(fire=>fire.speed *= 2);
+            this.plantArr.forEach(plant=>plant.speed *= 2);
+            this.waterArr.forEach(water=>water.speed *= 2);
+            this.counterForNextLevel = 0;
+        }
+    }
+
 
 }
