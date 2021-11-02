@@ -39,10 +39,11 @@ body {
     display: none;
   }
 
-  .container {
+  .start-screen{
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-top: 10%;
   }
 
   #start-button{
@@ -51,4 +52,16 @@ body {
 
   .game-board{
       display: flex;
+  }
+
+  .lives{
+    display: flex;
+    flex-direction: row;
+    height: 30px; 
+    width: 30px;
+  }
+
+  .score{
+    padding: 25%, 25%, 25%;
+    margin: 25%, 25%, 25%;
   }

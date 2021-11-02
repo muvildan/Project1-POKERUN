@@ -6,6 +6,7 @@ class Fireobstacle {
         this.color = "#c43a27";
         this.speed = speed; 
         this.size = 50;
+        this.upScore = true;
     }
 
     draw(){

@@ -7,8 +7,11 @@ const buildDom = (html) => {
 // First screen => Splash Screen
 const buildSplashScreen = () => {
     buildDom(`
-<img src="../images/pokerun.png" alt"POKERUN" />
+<div class= "start-screen"> 
+<img src="../images/pokerun.gif" alt"POKERUN" />
+<div> </div>
 <button id="start-button">Start Game</button>
+</div>
 `);
 const startButton = document.getElementById("start-button");
 startButton.addEventListener("click", buildGameScreen);
@@ -19,9 +22,11 @@ const buildGameScreen = () => {
     buildDom(`
 
 <div class="game-board">
-<div class="score">Score: 0</div> 
-<div id="lives" Lives: 3>
 <canvas id="canvas" width="600" height="600"></canvas>
+<div class="score-live">
+<div class="score">Score: 0</div>
+<div class="lives"></div>
+</div>
 </div>
 `);
 

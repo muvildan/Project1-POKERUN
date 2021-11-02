@@ -2,11 +2,11 @@
 
 class Game {
     constructor() {
-        this.canvas = null; 
-        this.ctx = null; 
-        this.Waterobstacle =[];
-        this.Plantobstacle =[];
-        this.Fireobstacle =[];
+        this.canvas = null;
+        this.ctx = null;
+        this.waterArr =[];
+        this.plantArr =[];
+        this.fireArr =[];
         this.player = null;
         this.gameIsOver = false; 
         this.score = 0;
@@ -16,12 +16,16 @@ class Game {
         this.size = 50;
         this.obstaclePosition =[];
         this.usedPosition =[false, false, false];
+        this.lives = 3;
     }
+
 
     start() {
         // Append canvas to the DOM, create a Player and start the Canvas loop
         // Save reference to canvas and Create ctx
         this.setCanvasValues();
+        this.drawLives();
+        this.drawScore();
 
         // Create a new player for the current game
         this.player = new Player(this.canvas, this.centerPosition, 3);
@@ -44,42 +48,46 @@ class Game {
 
             if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
-                this.Waterobstacle.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, 1));
+                this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
                 setTimeout(() => this.enableObstacleTrack(pos), 4000);
             }
 
             if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
-                this.Plantobstacle.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, 1));
+                this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
                 setTimeout(() => this.enableObstacleTrack(pos), 4000);
             }
 
-            if (Math.random() > 0.999 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.991 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
-                this.Fireobstacle.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, 1));
+                this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, 1));
                 this.usedPosition[pos] = true;
                 setTimeout(() => this.enableObstacleTrack(pos), 4000);
             }
 
             // 1. UPDATE THE STATE OF PLAYER AND WE MOVE THE OBSTACLES
-            this.Waterobstacle.forEach((obstacle) => {
+            this.waterArr.forEach((obstacle) => {
                 obstacle.move();
             });
 
-            this.Fireobstacle.forEach((obstacle) => {
+            this.fireArr.forEach((obstacle) => {
                 obstacle.move();
             });
 
-            this.Plantobstacle.forEach((obstacle) => {
+            this.plantArr.forEach((obstacle) => {
                 obstacle.move();
             });
             
 
-            this.Plantobstacle  = this.Plantobstacle.filter(this.inGame)
+            this.plantArr = this.plantArr.filter(this.inGame)
 
-            this.checkPlantCollisions(this.Plantobstacle);
+            this.checkPlantCollisions(this.plantArr);
+            this.checkFireCollisions(this.fireArr);
+
+            this.drawLives();
+            this.drawScore();
 
             //2. Clear the canvas
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -89,15 +97,15 @@ class Game {
             this.player.draw();
 
             //Draw the obstacles
-            this.Waterobstacle.forEach((obstacle) => {
+            this.waterArr.forEach((obstacle) => {
                 obstacle.draw();
             });
 
-            this.Fireobstacle.forEach((obstacle) => {
+            this.fireArr.forEach((obstacle) => {
                 obstacle.draw();
             });
 
-            this.Plantobstacle.forEach((obstacle) => {
+            this.plantArr.forEach((obstacle) => {
                 obstacle.draw();
             });
 
@@ -114,14 +122,27 @@ class Game {
         window.requestAnimationFrame(loop);
     }
 
-    checkPlantCollisions(obastaclesArray) {
-        obastaclesArray.forEach((obstacle) => {
+    checkFireCollisions(obstaclesArray) {
+        obstaclesArray.forEach((obstacle) => {
+            if (this.player.didCollide(obstacle)) {
+                if (obstacle.upScore){
+                    this.score += 5
+                    obstacle.upScore = !obstacle.upScore;
+                    console.log(this.score)
+                }
+            }
+        }
+    )};
+
+    checkPlantCollisions(obstaclesArray) {
+        obstaclesArray.forEach((obstacle, index) => {
             if (this.player.didCollide(obstacle)) {
                 if(obstacle.deadly) {
-                    this.player.lives--;
+                    this.lives--;
                     obstacle.deadly = !obstacle.deadly;
                 }
-            } if (this.player.lives <= 0){
+            obstaclesArray.splice(index, 1);
+            } if (this.lives <= 0){
                 this.gameIsOver = true;
             }
         }); 
@@ -169,7 +190,23 @@ class Game {
     }
 
     
+    drawLives () {
+        let indicator = document.querySelector(".lives");
+        
+        let indicatorContent = "";
+        for(let i = 0; i < this.lives; i++){
+            indicatorContent += "<img src='../images/heart.png' />"
+        }
+        indicator.innerHTML = indicatorContent;
+    }
 
-
+    drawScore () {
+        let indicator = document.querySelector(".score");
+        let indicatorContent = "";
+        for (let i = 0; i < this.score; i++){
+            indicatorContent += "<`Score: ${this.score}`/>"
+        }
+        indicator.innerHTML = indicatorContent;
+    }
 
 }
