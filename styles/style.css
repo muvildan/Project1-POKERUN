@@ -1,6 +1,10 @@
-body {
-    text-align: center;
-  }
+html, body{
+  min-height: 100%;
+  margin:0;
+  height:100%;
+  text-align: center;
+}
+
   
   body h1 {
     font-size: 30px;
@@ -50,8 +54,22 @@ body {
       padding-top: 20;
   }
 
+  /*
+  .background{
+    background-size: 100%;
+    background-repeat:no-repeat;
+    height: auto;
+    width: 100%;
+    }
+  */
+
   .game-board{
       display: flex;
+      background-image: url('/images/background2.jpeg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 100vw;
+      height: 100vh;
   }
 
   .lives{
@@ -62,6 +80,6 @@ body {
   }
 
   .score{
-    padding: 25%, 25%, 25%;
-    margin: 25%, 25%, 25%;
+    display: flex; 
+    text-align: start;
   }

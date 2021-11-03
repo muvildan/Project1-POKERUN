@@ -20,19 +20,25 @@ startButton.addEventListener("click", buildGameScreen);
 // Game Screen
 const buildGameScreen = () => {
     buildDom(`
-
-<div class="game-board">
-<canvas id="canvas" width="600" height="600"></canvas>
-<div class="score-live">
-<div class="score">Score: 0</div>
-<div class="lives"></div>
-</div>
-</div>
+    <div class="game-board">
+        <canvas id="canvas" width="600" height="600"></canvas>
+        <div class="score">Score: 0</div>
+        <div class="lives"></div>
+    </div>
 `);
 
 const game = new Game();
 game.start();
 };
+
+// Instructions Screen
+const buildInstructions = () => {
+    buildDom(`
+<section class="instructions">
+    <div></div>
+    <div></div>`
+)
+}
 
 //Last screen => Game Over
 const buildGameOver = () => {

@@ -16,8 +16,11 @@ class Game {
         this.size = 50;
         this.obstaclePosition =[];
         this.usedPosition =[false, false, false];
-        this.lives = 3;
+        this.lives = 5;
         this.counterForNextLevel = 0;
+        this.speed = 1;
+        this.clap = false;
+
     }
 
     start() {
@@ -28,7 +31,7 @@ class Game {
         this.drawLives();
 
         // Create a new player for the current game
-        this.player = new Player(this.canvas, this.centerPosition, 3);
+        this.player = new Player(this.canvas, this.centerPosition, 5, this.size);
         this.setEventListeners();
 
         /*let leftLane= (this.width / 3) - (this.width/3)/2;
@@ -46,25 +49,25 @@ class Game {
             // We create the obstacles with random y
             let pos = Math.floor(Math.random() * 3);
 
-            if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
-                this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, 1));
+                this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 4000);
-            }
-
-            if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
-                const y = this.canvas.height - 20;
-                this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, 1));
-                this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 4000);
+                setTimeout(() => this.enableObstacleTrack(pos), 3500);
             }
 
             if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
-                this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, 1));
+                this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 4000);
+                setTimeout(() => this.enableObstacleTrack(pos), 3500);
+            }
+
+            if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
+                const y = this.canvas.height - 20;
+                this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
+                this.usedPosition[pos] = true;
+                setTimeout(() => this.enableObstacleTrack(pos), 3500);
             }
 
             // 1. UPDATE THE STATE OF PLAYER AND WE MOVE THE OBSTACLES
@@ -87,7 +90,9 @@ class Game {
 
             this.checkPlantCollisions(this.plantArr);
             this.checkFireCollisions(this.fireArr);
+            this.checkWaterCollisions(this.waterArr);
 
+    
             this.drawLives();
             this.drawScore();
 
@@ -97,6 +102,10 @@ class Game {
             //3. Update the canvas
             //Draw the player
             this.player.draw();
+
+            if(this.clap) {
+                this.drawClap();
+            }
 
             //Draw the obstacles
             this.waterArr.forEach((obstacle) => {
@@ -110,6 +119,8 @@ class Game {
             this.plantArr.forEach((obstacle) => {
                 obstacle.draw();
             });
+
+            this.nextLevel();
             
             //4. Terminate the loop
             if(!this.gameIsOver) {
@@ -125,7 +136,7 @@ class Game {
     }
 
     checkFireCollisions(obstaclesArray) {
-        obstaclesArray.forEach((obstacle) => {
+        obstaclesArray.forEach((obstacle, index) => {
             if (this.player.didCollide(obstacle)) {
                 if (obstacle.upScore){
                     this.score += 50;
@@ -133,7 +144,8 @@ class Game {
                     this.nextLevel();
                     obstacle.upScore = !obstacle.upScore;
                 }
-            }
+                obstaclesArray.splice(index, 1);
+            } 
         }
     )};
 
@@ -150,6 +162,25 @@ class Game {
             }
         }); 
     }
+
+    checkWaterCollisions(obstaclesArray) {
+        obstaclesArray.forEach((obstacle) => {
+            if (this.player.didCollide(obstacle)) {
+                this.clap = true
+                setTimeout(() => this.clap = false, 1000)
+                console.log('clap', this.clap)
+                console.log(`yo, ${this.player.x}, ${this.player.y}`);
+                }
+        })
+    }
+
+    drawClap() {
+        console.log('drawing clap')
+        const img = new Image();
+        img.src="../images/handshake.png";
+        this.ctx.drawImage(img, this.player.x-15, this.player.y-75, 75, 75)
+    }
+
 
     randomPosition(position){
         return this.obstaclePosition[position];
@@ -200,14 +231,13 @@ class Game {
             return false;
         }
     }
-
     
     drawLives () {
         let indicator = document.querySelector(".lives");
         
         let indicatorContent = "";
         for(let i = 0; i < this.lives; i++){ 
-            indicatorContent += "<img src='../images/heart.png' />"
+            indicatorContent += "<img src='../images/heart.gif' />"
         }
         indicator.innerHTML = indicatorContent;
     }
@@ -218,13 +248,10 @@ class Game {
     }
 
     nextLevel(){
-        if (this.counterForNextLevel >= 100){
-            this.fireArr.forEach(fire=>fire.speed *= 2);
-            this.plantArr.forEach(plant=>plant.speed *= 2);
-            this.waterArr.forEach(water=>water.speed *= 2);
+        if (this.counterForNextLevel > 100){
+            this.speed *= 1.2;
             this.counterForNextLevel = 0;
         }
     }
-
 
 }

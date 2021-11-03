@@ -1,14 +1,14 @@
 "use strict";
 
 class Player {
-    constructor (canvas, startingPoint, lives) {
+    constructor (canvas, startingPoint, lives, size) {
         this.canvas = canvas;
         this.ctx = this.canvas.getContext("2d");
         this.canvasWidth = canvas.width; 
         this.lives = lives; 
-        this.size = 50;
-        this.y = 500; 
+        this.size = size;
         this.x = startingPoint;
+        this.y = 500;
         this.direction = 0; 
         this.speed = 0;
         this.moveChunk = this.canvasWidth / 3 - this.size / 2;
