@@ -49,25 +49,25 @@ class Game {
             // We create the obstacles with random y
             let pos = Math.floor(Math.random() * 3);
 
-            if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.97 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 3500);
+                setTimeout(() => this.enableObstacleTrack(pos), 2000);
             }
 
-            if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.97 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 3500);
+                setTimeout(() => this.enableObstacleTrack(pos), 2000);
             }
 
             if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
-                setTimeout(() => this.enableObstacleTrack(pos), 3500);
+                setTimeout(() => this.enableObstacleTrack(pos), 2000);
             }
 
             // 1. UPDATE THE STATE OF PLAYER AND WE MOVE THE OBSTACLES
@@ -178,7 +178,7 @@ class Game {
         console.log('drawing clap')
         const img = new Image();
         img.src="../images/handshake.png";
-        this.ctx.drawImage(img, this.player.x-15, this.player.y-75, 75, 75)
+        this.ctx.drawImage(img, this.player.x-20, this.player.y-50, 50, 50)
     }
 
 

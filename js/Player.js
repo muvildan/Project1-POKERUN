@@ -31,9 +31,12 @@ class Player {
     }
 
     draw(){
-        this.ctx.fillStyle = "#081e66";
+        const img = new Image();
+        img.src="../images/squirtle.back.png";
+        this.ctx.drawImage(img, this.x, this.y, 50, 50)
+        //this.ctx.fillStyle = "#081e66";
         // fillRect(x, y, widht, height)
-        this.ctx.fillRect(this.x, this.y, this.size, this.size);
+        //this.ctx.fillRect(this.x, this.y, this.size, this.size);
     }
 
     didCollide(obstacle) {
