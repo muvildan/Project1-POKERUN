@@ -12,15 +12,8 @@ html, body{
   }
   
   body button {
-    align-items: center;
-    font-size: 20px;
-    background-color: darkblue;
-    color: lightblue;
-    padding: 20px 30px;
-    border: 25px;
-    box-shadow: 0;
-    border-radius: 20px;
-    margin-bottom: 20px;
+    background-image: url("/images/pokeball.png");
+    
   }
   
   #canvas {
@@ -46,13 +39,38 @@ html, body{
 
   .start-screen{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    padding-top: 10%;
+    margin-top: 20%;
+    margin-right: 15%;
+    width: 100vw;
+    height: 100vh;
   }
 
-  #start-button{
-      padding-top: 20;
+  #squirtle-button{
+      display: block;
+      background-image: url("/images/pokeball.png") no-repeat;
+      background-size: cover;
+      width: 175px;
+      height: 175px;
+      border-radius: 50%;
+  }
+
+  #charmander-button{
+    background-image: url("/images/pokeball.png");
+    background-size: cover;
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+  }
+
+  #bulbasaur-button{
+    background-image: url("/images/pokeball.png");
+    background-size: cover;
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
   }
 
   /*
@@ -66,7 +84,7 @@ html, body{
 
   .game-board{
       display: flex;
-      background-image: url('/images/background2.jpeg');
+      background-image: url("/images/background2.jpeg");
       background-repeat: no-repeat;
       background-size: cover;
       width: 100vw;

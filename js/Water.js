@@ -6,12 +6,13 @@ class Waterobstacle {
         this.color = "#2b6dbd";
         this.speed = speed; 
         this.size = 50;
+        this.upScore = true;
         this.type = type;
     }
 
     draw(){
         const img = new Image();
-        img.src="../images/squirtle-front.png";
+        img.src="/images/squirtle-front.png";
         this.ctx.drawImage(img, this.x, this.y, this.size, this.size);
         //this.ctx.fillStyle = this.color
         //this.ctx.fillRect(this.x, this.y, this.size, this.size);

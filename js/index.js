@@ -8,12 +8,19 @@ const buildDom = (html) => {
 const buildSplashScreen = () => {
     buildDom(`
 <div class= "start-screen"> 
-<img src="../images/pokerun.gif" alt"POKERUN" />
 <div> </div>
-<button id="start-button">Start Game</button>
+<button id="squirtle-button"></button>
+<button id="charmander-button"></button>
+<button id="bulbasaur-button"></button>
 </div>
 `);
-const startButton = document.getElementById("start-button");
+let startButton = document.getElementById("squirtle-button");
+startButton.addEventListener("click", buildGameScreen);
+;
+startButton = document.getElementById("charmander-button");
+startButton.addEventListener("click", buildGameScreen);
+;
+startButton = document.getElementById("bulbasaur-button");
 startButton.addEventListener("click", buildGameScreen);
 };
 

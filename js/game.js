@@ -20,6 +20,7 @@ class Game {
         this.counterForNextLevel = 0;
         this.speed = 1;
         this.clap = false;
+        this.fight = false;
 
     }
 
@@ -107,6 +108,10 @@ class Game {
                 this.drawClap();
             }
 
+            if(this.fight) {
+                this.draw25();
+            }
+
             //Draw the obstacles
             this.waterArr.forEach((obstacle) => {
                 obstacle.draw();
@@ -139,15 +144,32 @@ class Game {
         obstaclesArray.forEach((obstacle, index) => {
             if (this.player.didCollide(obstacle)) {
                 if (obstacle.upScore){
-                    this.score += 50;
-                    this.counterForNextLevel += 50;
+                    this.score += 25;
+                    this.counterForNextLevel += 25;
                     this.nextLevel();
                     obstacle.upScore = !obstacle.upScore;
                 }
                 obstaclesArray.splice(index, 1);
+                this.fight = true;
+                setTimeout(() => this.fight = false, 500);
             } 
         }
     )};
+
+    checkWaterCollisions(obstaclesArray) {
+        obstaclesArray.forEach((obstacle) => {
+            if (this.player.didCollide(obstacle)) {
+                if (obstacle.upScore){
+                    this.score += 5;
+                    this.counterForNextLevel += 5;
+                    this.nextLevel();
+                    obstacle.upScore = !obstacle.upScore;
+                }
+                this.clap = true;
+                setTimeout(() => this.clap = false, 500)
+                }
+        })
+    }
 
     checkPlantCollisions(obstaclesArray) {
         obstaclesArray.forEach((obstacle, index) => {
@@ -163,22 +185,16 @@ class Game {
         }); 
     }
 
-    checkWaterCollisions(obstaclesArray) {
-        obstaclesArray.forEach((obstacle) => {
-            if (this.player.didCollide(obstacle)) {
-                this.clap = true
-                setTimeout(() => this.clap = false, 1000)
-                console.log('clap', this.clap)
-                console.log(`yo, ${this.player.x}, ${this.player.y}`);
-                }
-        })
+    drawClap() {
+        const img = new Image();
+        img.src="/images/5.png";
+        this.ctx.drawImage(img, this.player.x+22, this.player.y-30, 15, 22)
     }
 
-    drawClap() {
-        console.log('drawing clap')
-        const img = new Image();
-        img.src="../images/handshake.png";
-        this.ctx.drawImage(img, this.player.x-20, this.player.y-50, 50, 50)
+    draw25(){
+        const img2 = new Image();
+        img2.src="/images/25.png";
+        this.ctx.drawImage(img2, this.player.x+20, this.player.y-30, 25, 20)
     }
 
 
@@ -237,7 +253,7 @@ class Game {
         
         let indicatorContent = "";
         for(let i = 0; i < this.lives; i++){ 
-            indicatorContent += "<img src='../images/heart.gif' />"
+            indicatorContent += "<img src='/images/heart.gif' />"
         }
         indicator.innerHTML = indicatorContent;
     }
