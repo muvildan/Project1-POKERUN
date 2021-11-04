@@ -43,9 +43,9 @@ html, body{
     justify-content: space-around;
     align-items: center;
     margin-top: 20%;
-    margin-right: 15%;
+    margin-right: 40%;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
   }
 
   #squirtle-button{
@@ -72,15 +72,6 @@ html, body{
     height: 175px;
     border-radius: 50%;
   }
-
-  /*
-  .background{
-    background-size: 100%;
-    background-repeat:no-repeat;
-    height: auto;
-    width: 100%;
-    }
-  */
 
   .game-board{
       display: flex;
