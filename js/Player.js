@@ -32,7 +32,7 @@ class Player {
 
     draw(){
         const img = new Image();
-        img.src="./images/squirtle.back.png";
+        img.src="images/squirtle.back.png";
         this.ctx.drawImage(img, this.x, this.y, 50, 50)
         //this.ctx.fillStyle = "#081e66";
         // fillRect(x, y, widht, height)

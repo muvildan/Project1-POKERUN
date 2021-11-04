@@ -11,7 +11,7 @@ class Fireobstacle {
 
     draw(){
         const img = new Image();
-        img.src="./images/charmander-front.png";
+        img.src="images/charmander-front.png";
         this.ctx.drawImage(img, this.x, this.y, this.size, this.size);
         //this.ctx.fillStyle = this.color;
         //this.ctx.fillRect(this.x, this.y, this.size, this.size);
