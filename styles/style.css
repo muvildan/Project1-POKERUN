@@ -50,7 +50,7 @@ html, body{
 
   #squirtle-button{
       display: block;
-      background-image: url("/images/pokeball.png") no-repeat;
+      background-image: url("./images/pokeball.png") no-repeat;
       background-size: cover;
       width: 175px;
       height: 175px;
@@ -58,7 +58,7 @@ html, body{
   }
 
   #charmander-button{
-    background-image: url("/images/pokeball.png");
+    background-image: url("./images/pokeball.png");
     background-size: cover;
     width: 175px;
     height: 175px;
@@ -66,7 +66,7 @@ html, body{
   }
 
   #bulbasaur-button{
-    background-image: url("/images/pokeball.png");
+    background-image: url("./images/pokeball.png");
     background-size: cover;
     width: 175px;
     height: 175px;
@@ -75,7 +75,7 @@ html, body{
 
   .game-board{
       display: flex;
-      background-image: url("/images/background2.jpeg");
+      background-image: url("./images/background2.jpeg");
       background-repeat: no-repeat;
       background-size: cover;
       width: 100vw;

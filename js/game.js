@@ -187,13 +187,13 @@ class Game {
 
     drawClap() {
         const img = new Image();
-        img.src="/images/5.png";
+        img.src="./images/5.png";
         this.ctx.drawImage(img, this.player.x+22, this.player.y-30, 15, 22)
     }
 
     draw25(){
         const img2 = new Image();
-        img2.src="/images/25.png";
+        img2.src="./images/25.png";
         this.ctx.drawImage(img2, this.player.x+20, this.player.y-30, 25, 20)
     }
 
@@ -253,7 +253,7 @@ class Game {
         
         let indicatorContent = "";
         for(let i = 0; i < this.lives; i++){ 
-            indicatorContent += "<img src='/images/heart.gif' />"
+            indicatorContent += "<img src='./images/heart.gif' />"
         }
         indicator.innerHTML = indicatorContent;
     }
