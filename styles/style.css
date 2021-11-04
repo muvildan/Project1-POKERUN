@@ -12,7 +12,7 @@ html, body{
   }
   
   body button {
-    background-image: url("/images/pokeball.png");
+    background-image: url("./images/pokeball.png");
     
   }
   
