@@ -1,5 +1,7 @@
 "use strict"
 
+let myStorage = window.localStorage;
+
 class Game {
     constructor() {
         this.canvas = null;
@@ -21,6 +23,7 @@ class Game {
         this.speed = 1;
         this.clap = false;
         this.fight = false;
+        this.lose = false;
 
     }
 
@@ -50,7 +53,7 @@ class Game {
             // We create the obstacles with random y
             let pos = Math.floor(Math.random() * 3);
 
-            if (Math.random() > 0.97 && this.usedPosition[pos] === false) {
+            if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
                 this.usedPosition[pos] = true;
@@ -105,11 +108,15 @@ class Game {
             this.player.draw();
 
             if(this.clap) {
-                this.drawClap();
+                this.draw5();
             }
 
             if(this.fight) {
                 this.draw25();
+            }
+
+            if(this.lose){
+                this.drawEmptyheart();
             }
 
             //Draw the obstacles
@@ -132,6 +139,17 @@ class Game {
                 window.requestAnimationFrame(loop);
             } else {
                 buildGameOver();
+                console.log(myStorage)
+                const highScore = myStorage.getItem("Score");
+                const result = Math.max(this.score, highScore);
+                myStorage.setItem("Score", String(result));
+
+
+                let finalScore = document.querySelector(".score2");
+                let highestScore = document.querySelector(".high-score");
+
+                finalScore.textContent = this.score;
+                highestScore.textContent = result
             }
         };
         // As loop function will be continuously invoked by
@@ -151,7 +169,7 @@ class Game {
                 }
                 obstaclesArray.splice(index, 1);
                 this.fight = true;
-                setTimeout(() => this.fight = false, 500);
+                setTimeout(() => this.fight = false, 300);
             } 
         }
     )};
@@ -166,7 +184,7 @@ class Game {
                     obstacle.upScore = !obstacle.upScore;
                 }
                 this.clap = true;
-                setTimeout(() => this.clap = false, 500)
+                setTimeout(() => this.clap = false, 300)
                 }
         })
     }
@@ -178,14 +196,17 @@ class Game {
                     this.lives--;
                     obstacle.deadly = !obstacle.deadly;
                 }
-            obstaclesArray.splice(index, 1);
+                this.lose = true;
+                setTimeout(() => this.lose = false, 300);
+                obstaclesArray.splice(index, 1);
             } if (this.lives <= 0){
+                this.updateGameScore();
                 this.gameIsOver = true;
             }
         }); 
     }
 
-    drawClap() {
+    draw5() {
         const img = new Image();
         img.src="images/5.png";
         this.ctx.drawImage(img, this.player.x+22, this.player.y-30, 15, 22)
@@ -195,6 +216,12 @@ class Game {
         const img2 = new Image();
         img2.src="images/25.png";
         this.ctx.drawImage(img2, this.player.x+20, this.player.y-30, 25, 20)
+    }
+
+    drawEmptyheart(){
+        const img3 = new Image();
+        img3.src="images/empty heart.png";
+        this.ctx.drawImage(img3, this.player.x+20, this.player.y-30, 25, 20)
     }
 
 
@@ -267,6 +294,12 @@ class Game {
         if (this.counterForNextLevel > 100){
             this.speed *= 1.2;
             this.counterForNextLevel = 0;
+        }
+    }
+
+    updateGameScore(){
+        if (this.score > this.highScore){
+            this.highScore = this.score;
         }
     }
 
