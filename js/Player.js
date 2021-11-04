@@ -9,7 +9,7 @@ class Player {
         this.size = size;
         this.x = startingPoint;
         this.y = 500;
-        this.direction = 0; 
+        this.direction = 0;
         this.speed = 0;
         this.moveChunk = this.canvasWidth / 3 - this.size / 2;
     }

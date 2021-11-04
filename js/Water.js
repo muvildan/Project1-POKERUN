@@ -2,8 +2,7 @@ class Waterobstacle {
     constructor(ctx, x, y, speed, type){
         this.ctx = ctx; 
         this.x = x; 
-        this.y = y - 600; 
-        this.color = "#2b6dbd";
+        this.y = y - 600;
         this.speed = speed; 
         this.size = 50;
         this.upScore = true;

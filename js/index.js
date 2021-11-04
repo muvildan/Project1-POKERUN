@@ -51,7 +51,7 @@ game.start();
 };
 
 // Instructions Screen
-const buildInstructions = () => {
+const buildInstructionsScreen = () => {
     buildDom(`
 <section class="instructions">
     <div></div>
@@ -65,6 +65,7 @@ const buildGameOver = () => {
 buildDom(`
 <section class="game-over">
     <h1 class="Game-over"> Game Over </h1>
+    <div class="gameover-img"></div>
         <h2>Highest score:</h2><span class="high-score"></span>
         <h2>Score: </h2><span class="score2"> </span>
     <button id="game"> TRY AGAIN</button>

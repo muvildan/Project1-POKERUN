@@ -3,7 +3,6 @@ class Plantobstacle {
         this.ctx = ctx; 
         this.x = x; 
         this.y = y - 600;
-        this.color = "#2cbf33";
         this.speed = speed; 
         this.size = 50;
         this.deadly = true;

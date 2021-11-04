@@ -166,6 +166,10 @@ html, body{
     color: white;
   }
 
+  .gameover-img{
+    background-image: url("../images/gameover.gif")
+  }
+
   #game{
     display: inline-block;
     margin-top: 10px;

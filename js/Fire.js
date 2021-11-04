@@ -2,8 +2,7 @@ class Fireobstacle {
     constructor(ctx, x, y, speed){
         this.ctx = ctx; 
         this.x = x; 
-        this.y = y - 600; 
-        this.color = "#c43a27";
+        this.y = y - 600;
         this.speed = speed; 
         this.size = 50;
         this.upScore = true;
