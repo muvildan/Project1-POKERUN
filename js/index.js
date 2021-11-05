@@ -27,6 +27,9 @@ startButton = document.getElementById("bulbasaur-button");
 startButton.addEventListener("click", buildGameScreen);
 };
 
+const music = new Audio("/audio/music.mp3")
+const music2 = new Audio("/audio/youLose.mp3")
+
 // Instructions Screen
 
 // Game Screen
@@ -48,17 +51,8 @@ const buildGameScreen = () => {
 
 const game = new Game();
 game.start();
+music.play();
 };
-
-// Instructions Screen
-const buildInstructionsScreen = () => {
-    buildDom(`
-<section class="instructions">
-    <div></div>
-    <div></div>
-    
-`);
-}
 
 //Last screen => Game Over
 const buildGameOver = () => {
@@ -75,6 +69,8 @@ buildDom(`
 
 const restartButton = document.querySelector("button");
 restartButton.addEventListener("click", buildGameScreen);
+music.pause();
+music2.play();
 };
 
 /* When the winodws loads, "buildSplashScreen" function will be run 

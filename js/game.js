@@ -1,6 +1,7 @@
 "use strict"
 
 let myStorage = window.localStorage;
+let collisionAudio = new Audio("/audio/badcollision.mp3")
 
 class Game {
     constructor() {
@@ -34,7 +35,7 @@ class Game {
         this.drawLives();
 
         // Create a new player for the current game
-        this.player = new Player(this.canvas, this.centerPosition, 5, this.size);
+        this.player = new Player(this.canvas, this.centerPosition, this.lives, this.size);
         this.setEventListeners();
 
         // Start the canvas requestAnimationFrame loop
@@ -44,10 +45,10 @@ class Game {
     startLoop(){
         const loop = () => {
 
-            // Store the value for which the obstacles will randomly appear in any of the 3 provided lanes
+            // Store the value for which the obstacles will randomly appear in any of the 3 provided tracks
             let pos = Math.floor(Math.random() * 3);
 
-            // Generate random positioned water obstacles + delay 2s the apparition of an object in the same lane
+            // Generate random positioned water obstacles + delay 2s the apparition of an object in the same track
             if (Math.random() > 0.98 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.waterArr.push(new Waterobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
@@ -55,7 +56,7 @@ class Game {
                 setTimeout(() => this.enableObstacleTrack(pos), 2000);
             }
 
-            // Generate random positioned plant obstacles + delay 2s the apparition of an object in the same lane
+            // Generate random positioned plant obstacles + delay 2s the apparition of an object in the same track
             if (Math.random() > 0.97 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.plantArr.push(new Plantobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
@@ -63,7 +64,7 @@ class Game {
                 setTimeout(() => this.enableObstacleTrack(pos), 2000);
             }
 
-            // Generate random positioned fire obstacles + delay 2s the apparition of an object in the same lane
+            // Generate random positioned fire obstacles + delay 2s the apparition of an object in the same track
             if (Math.random() > 0.99 && this.usedPosition[pos] === false) {
                 const y = this.canvas.height - 20;
                 this.fireArr.push(new Fireobstacle(this.ctx, this.randomPosition(pos), y, this.speed));
@@ -106,7 +107,7 @@ class Game {
             // Events above the player happening after collision
             if(this.clap) this.draw5();
             if(this.fight) this.draw25();
-            if(this.lose) this.drawEmptyheart();
+            if(this.lose) this.drawBrokenHeart();
 
             // Call method to update velocity of coming objects after reaching 100 score
             this.nextLevel();
@@ -134,6 +135,8 @@ class Game {
         // Infinite loop to update the game constantly
         window.requestAnimationFrame(loop);
     }
+
+    // METHODS FORM HERE ONWARD
 
     // Method to set the canvas values
     setCanvasValues(){
@@ -169,7 +172,7 @@ class Game {
 
     // Method to check water collisions
     checkWaterCollisions(obstaclesArray) {
-        obstaclesArray.forEach((obstacle) => {
+        obstaclesArray.forEach((obstacle, index) => {
             if (this.player.didCollide(obstacle)) {
                 if (obstacle.upScore){
                     this.score += 5;
@@ -177,6 +180,7 @@ class Game {
                     this.nextLevel();
                     obstacle.upScore = !obstacle.upScore;
                 }
+                obstaclesArray.splice(index, 1);
                 this.clap = true;
                 setTimeout(() => this.clap = false, 300)
                 }
@@ -191,6 +195,7 @@ class Game {
                     this.lives--;
                     obstacle.deadly = !obstacle.deadly;
                 }
+                collisionAudio.play();
                 this.lose = true;
                 setTimeout(() => this.lose = false, 300);
                 obstaclesArray.splice(index, 1);
@@ -216,10 +221,10 @@ class Game {
     }
 
     // Method to draw an empty heart to showcase how they're losing life
-    drawEmptyheart(){
+    drawBrokenHeart(){
         const img3 = new Image();
-        img3.src="images/empty heart.png";
-        this.ctx.drawImage(img3, this.player.x+20, this.player.y-30, 25, 20)
+        img3.src="images/brokenheart.png";
+        this.ctx.drawImage(img3, this.player.x+15, this.player.y-35, 30, 30)
     }
 
     // Method to randomize the position of the obstacles
@@ -243,7 +248,6 @@ class Game {
 
     // Method to check whether the object is in the outside its y to delete it
     inGame = (obj) => {
-        let counter = 0
         if (obj.y < this.canvas.height){
             return true;
         } else {
