@@ -1,5 +1,5 @@
 # POKÉ-RUN 
-Pokémon has always been a game of mental calulations. Am I going to be faster than my oponent? Is my Pokémon type stronger than my oponents' types?
+Pokémon has always been a game of mental calculations. Will I be faster than my oponent? Is my Pokémon type stronger than my oponent's type?
 In a much simpler way, that's what POKÉ-RUN replicates!
 You will have to move fast and apply the logic of types to get to the max score possible. 
 
