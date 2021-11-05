@@ -60,7 +60,7 @@ html, body{
   .title{
     display: flex;
     justify-content: center;
-    background-image: url("../images/pokérun.png");
+    background-image: url("../images/pokerun.png");
     background-size: cover;
     background-color: transparent;
     align-items:center;
