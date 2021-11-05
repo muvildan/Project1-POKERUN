@@ -1,7 +1,7 @@
 "use strict"
 
 let myStorage = window.localStorage;
-let collisionAudio = new Audio("/audio/badcollision.mp3")
+let collisionAudio = new Audio("audio/badcollision.mp3")
 
 class Game {
     constructor() {

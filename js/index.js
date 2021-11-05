@@ -27,8 +27,8 @@ startButton = document.getElementById("bulbasaur-button");
 startButton.addEventListener("click", buildGameScreen);
 };
 
-const music = new Audio("/audio/music.mp3")
-const music2 = new Audio("/audio/youLose.mp3")
+const music = new Audio("audio/music.mp3")
+const music2 = new Audio("audio/youLose.mp3")
 
 // Instructions Screen
 
